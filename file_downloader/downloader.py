@@ -22,7 +22,7 @@ class Downloader:
     def _worker(self, download_range: tuple, counter: AtomicCounter):
         start, end = download_range
         header = {'Range': 'bytes=' + str(start) + '-' + str(end)}
-        
+
         r = requests.get(self.url, headers=header, stream=True, timeout=30)
         binary_content = r.content
         counter.increment_by_value(end - start + 1)
@@ -57,5 +57,6 @@ class Downloader:
 
 
 if __name__ == "__main__":
-    downloader = Downloader('https://download-cf.jetbrains.com/idea/ideaIC-2019.3.3.tar.gz', 4)
+    downloader = Downloader(
+        'https://download-cf.jetbrains.com/idea/ideaIC-2019.3.3.tar.gz', 4)
     downloader.download()
